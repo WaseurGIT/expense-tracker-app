@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
-import expenses from "../data/expenses.json";
+// import expenses from "../data/expenses.json";
+import axios from "axios";
 
 const getCategoryIcon = (type) => {
   const icons = {
@@ -36,11 +37,18 @@ const getCategoryColor = (type) => {
 };
 
 const Expenses = () => {
+  const [expenses, setExpenses] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.EXPO_PUBLIC_API_URL}/expenses`)
+      .then((res) => setExpenses(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <View className="flex-1 px-6">
       <FlatList
         data={expenses}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
         renderItem={({ item }) => (

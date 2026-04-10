@@ -1,7 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -15,8 +17,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const AddExpense = () => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [type, setType] = useState("");
-  const [category, setCategory] = useState("");
+  const [type, setType] = useState("Food");
+  const [category, setCategory] = useState("income");
   const [note, setNote] = useState("");
 
   const handleAddExpense = () => {
@@ -25,19 +27,26 @@ const AddExpense = () => {
       amount: parseFloat(amount),
       type,
       category,
-      date: new Date(),
+      date: new Date().toISOString().split("T")[0],
       note,
     };
 
-    
-
-    console.log("New Expense Added:", newExpense);
+    axios
+      .post(`${process.env.EXPO_PUBLIC_API_URL}/expenses`, newExpense)
+      .then((response) => {
+        Alert.alert("Success", "Expense added successfully!");
+        console.log("Expense added successfully:", response.data);
+        router.push("/");
+      })
+      .catch((error) => {
+        Alert.alert("Error", "Failed to add expense.");
+        console.error("Error adding expense:", error);
+      });
     setTitle("");
     setAmount("");
-    setType("");
-    setCategory("");
+    setType("Food");
+    setCategory("Income");
     setNote("");
-    router.push("/");
   };
 
   return (
