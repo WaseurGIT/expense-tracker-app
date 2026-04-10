@@ -41,7 +41,10 @@ const Expenses = () => {
   useEffect(() => {
     axios
       .get(`${process.env.EXPO_PUBLIC_API_URL}/expenses`)
-      .then((res) => setExpenses(res.data))
+      .then((res) => {
+        // console.log("API RESPONSE:", res.data);
+        setExpenses(res.data);
+      })
       .catch((err) => console.log(err));
   }, []);
   return (
@@ -60,7 +63,7 @@ const Expenses = () => {
                 <Text className="text-xl">{getCategoryIcon(item.type)}</Text>
               </View>
 
-              <View className="flex-1">
+              <View className="flex-1 items-start">
                 <Text className="text-base font-semibold text-gray-900 mb-1">
                   {item.title}
                 </Text>
@@ -72,6 +75,7 @@ const Expenses = () => {
                   </View>
                   <Text className="text-xs text-gray-500">{item.date}</Text>
                 </View>
+                <Text className="text-xs text-gray-500">{item.note}</Text>
               </View>
             </View>
 

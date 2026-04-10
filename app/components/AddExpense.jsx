@@ -35,7 +35,6 @@ const AddExpense = () => {
       .post(`${process.env.EXPO_PUBLIC_API_URL}/expenses`, newExpense)
       .then((response) => {
         Alert.alert("Success", "Expense added successfully!");
-        console.log("Expense added successfully:", response.data);
         router.push("/");
       })
       .catch((error) => {
@@ -45,7 +44,7 @@ const AddExpense = () => {
     setTitle("");
     setAmount("");
     setType("Food");
-    setCategory("Income");
+    setCategory("income");
     setNote("");
   };
 

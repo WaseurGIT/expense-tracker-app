@@ -2,17 +2,30 @@ import Feather from "@expo/vector-icons/Feather";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Expenses from "./components/Expenses";
-import expenses from "./data/expenses.json";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Index() {
+  const [expenses, setExpenses] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.EXPO_PUBLIC_API_URL}/expenses`)
+      .then((res) => {
+        console.log("API RESPONSE:", res.data);
+        setExpenses(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const totalIncome = expenses
-    .filter((exp) => exp.category === "income")
-    .reduce((sum, exp) => sum + exp.amount, 0);
+    .filter((exp: any) => exp.category === "income")
+    .reduce((sum, exp: any) => sum + exp.amount, 0);
 
   const totalExpense = expenses
-    .filter((exp) => exp.category === "expense")
-    .reduce((sum, exp) => sum + exp.amount, 0);
+    .filter((exp: any) => exp.category === "expense")
+    .reduce((sum, exp: any) => sum + exp.amount, 0);
 
   const balance = totalIncome - totalExpense;
 
