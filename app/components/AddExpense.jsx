@@ -1,3 +1,4 @@
+import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -27,6 +28,8 @@ const AddExpense = () => {
       date: new Date(),
       note,
     };
+
+    
 
     console.log("New Expense Added:", newExpense);
     setTitle("");
@@ -82,26 +85,43 @@ const AddExpense = () => {
 
           <View className="mb-5">
             <Text className="text-white text-sm font-semibold mb-2">Type</Text>
-            <TextInput
-              className="bg-white/10 border border-white/20 p-4 rounded-lg text-white"
-              placeholder="Job, Food, Utils etc."
-              placeholderTextColor="rgba(255,255,255,0.5)"
-              value={type}
-              onChangeText={(text) => setType(text)}
-            />
+            <View className="bg-white/10 border border-white/20 rounded-lg">
+              <Picker
+                selectedValue={type}
+                onValueChange={(itemValue) => setType(itemValue)}
+                dropdownIconColor="white"
+                style={{ color: "white" }}
+              >
+                <Picker.Item label="Food" value="Food" />
+                <Picker.Item label="Job" value="Job" />
+                <Picker.Item label="Tuition" value="Tuition" />
+                <Picker.Item label="Utilities" value="Utilities" />
+                <Picker.Item label="Freelancing" value="Freelancing" />
+                <Picker.Item label="Shopping" value="Shopping" />
+                <Picker.Item label="Transport" value="Transport" />
+                <Picker.Item label="Entertainment" value="Entertainment" />
+                <Picker.Item label="Health" value="Health" />
+                <Picker.Item label="Education" value="Education" />
+                <Picker.Item label="Others" value="Others" />
+              </Picker>
+            </View>
           </View>
 
           <View className="mb-5">
             <Text className="text-white text-sm font-semibold mb-2">
               Category
             </Text>
-            <TextInput
-              className="bg-white/10 border border-white/20 p-4 rounded-lg text-white"
-              placeholder="Income or Expense"
-              placeholderTextColor="rgba(255,255,255,0.5)"
-              value={category}
-              onChangeText={(text) => setCategory(text)}
-            />
+            <View className="bg-white/10 border border-white/20 rounded-lg">
+              <Picker
+                selectedValue={category}
+                onValueChange={(itemValue) => setCategory(itemValue)}
+                dropdownIconColor="white"
+                style={{ color: "white" }}
+              >
+                <Picker.Item label="Income" value="income" />
+                <Picker.Item label="Expense" value="expense" />
+              </Picker>
+            </View>
           </View>
 
           <View className="mb-8">

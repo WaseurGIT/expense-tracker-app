@@ -7,6 +7,7 @@ const getCategoryIcon = (type) => {
     Food: "🍔",
     Job: "💼",
     Utilities: "⚡",
+    Tuition: "📚",
     Freelancing: "💻",
     Shopping: "🛍️",
     Transport: "🚗",
