@@ -32,7 +32,7 @@ const AddExpense = () => {
     };
 
     axios
-      .post(`${process.env.EXPO_PUBLIC_API_URL}/expenses`, newExpense)
+      .post("https://expense-tracker-app-server-l1bm.onrender.com/expenses", newExpense)
       .then((response) => {
         Alert.alert("Success", "Expense added successfully!");
         router.push("/");
