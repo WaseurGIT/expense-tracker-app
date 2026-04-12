@@ -11,7 +11,8 @@ export default function Index() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.EXPO_PUBLIC_API_URL}/expenses`)
+      // .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
+      .get("http://192.168.10.70:3000/expenses")
       .then((res) => {
         console.log("API RESPONSE:", res.data);
         setExpenses(res.data);

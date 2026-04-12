@@ -32,7 +32,8 @@ const AddExpense = () => {
     };
 
     axios
-      .post("https://expense-tracker-app-server-l1bm.onrender.com/expenses", newExpense)
+      // .post("https://expense-tracker-app-server-l1bm.onrender.com/expenses", newExpense)
+      .post("http://192.168.10.70:3000/expenses", newExpense)
       .then((response) => {
         Alert.alert("Success", "Expense added successfully!");
         router.push("/");
@@ -66,6 +67,7 @@ const AddExpense = () => {
           <Text className="text-3xl font-bold text-white mb-8">
             Add Expense
           </Text>
+          
           <View className="mb-5">
             <Text className="text-white text-sm font-semibold mb-2">Title</Text>
             <TextInput

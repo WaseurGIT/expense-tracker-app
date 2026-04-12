@@ -40,7 +40,8 @@ const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
   useEffect(() => {
     axios
-      .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
+      // .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
+      .get("http://192.168.10.70:3000/expenses")
       .then((res) => {
         // console.log("API RESPONSE:", res.data);
         setExpenses(res.data);
@@ -86,7 +87,9 @@ const Expenses = () => {
                 }`}
               >
                 {item.category === "income" ? "+" : "-"}৳
-                {item.amount.toLocaleString()}
+                {typeof item.amount === "number"
+                  ? item.amount.toLocaleString()
+                  : "0"}
               </Text>
               <Text
                 className={`text-xs mt-1 font-semibold ${
