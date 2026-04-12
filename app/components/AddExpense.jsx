@@ -32,8 +32,7 @@ const AddExpense = () => {
     };
 
     axios
-      // .post("https://expense-tracker-app-server-l1bm.onrender.com/expenses", newExpense)
-      .post("http://192.168.10.70:3000/expenses", newExpense)
+      .post("https://expense-tracker-app-server-l1bm.onrender.com/expenses", newExpense)
       .then((response) => {
         Alert.alert("Success", "Expense added successfully!");
         router.push("/");

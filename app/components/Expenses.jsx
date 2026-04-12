@@ -40,8 +40,7 @@ const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
   useEffect(() => {
     axios
-      // .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
-      .get("http://192.168.10.70:3000/expenses")
+      .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
       .then((res) => {
         // console.log("API RESPONSE:", res.data);
         setExpenses(res.data);
