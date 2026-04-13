@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
+import axiosSecure from "./axiosSecure";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -20,16 +21,14 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
 
-  const handleRegister = () => {
-    if (
-      fullName &&
-      email &&
-      password &&
-      confirmPassword &&
-      password === confirmPassword
-    ) {
-      router.push("/index");
-    }
+  const handleRegister = async () => {
+    if (password !== confirmPassword) return;
+    await axiosSecure.post("/users", {
+      name: fullName,
+      email,
+      password,
+    });
+    router.push("/login");
   };
 
   return (

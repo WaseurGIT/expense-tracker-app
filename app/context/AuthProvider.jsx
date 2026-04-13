@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState } from "react";
+import axiosSecure from "../axiosSecure";
 
 export const AuthContext = createContext();
 
@@ -9,10 +10,10 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const loadUser = async () => {
-      const storedUser = await AsyncStorage.getItem("user");
+      const token = await AsyncStorage.getItem("token");
 
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      if (token) {
+        setUser({ token });
       }
       setLoading(false);
     };
@@ -20,8 +21,14 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (userData) => {
-    setUser(userData);
-    await AsyncStorage.setItem("user", JSON.stringify(userData));
+    try {
+      const res = await axiosSecure.post("/login", userData);
+      const token = res.data.token;
+      await AsyncStorage.setItem("token", token);
+      setUser({ email: userData.email });
+    } catch (error) {
+      console.error("Login failed:", error.message);
+    }
   };
 
   const logout = async () => {

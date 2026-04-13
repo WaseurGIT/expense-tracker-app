@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 // import expenses from "../data/expenses.json";
-import axios from "axios";
+import axiosSecure from "../axiosSecure";
 
 const getCategoryIcon = (type) => {
   const icons = {
@@ -36,17 +36,17 @@ const getCategoryColor = (type) => {
   return colors[type] || "bg-gray-100";
 };
 
-const Expenses = () => {
-  const [expenses, setExpenses] = useState([]);
-  useEffect(() => {
-    axios
-      .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
-      .then((res) => {
-        // console.log("API RESPONSE:", res.data);
-        setExpenses(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+const Expenses = ({ expenses }) => {
+  // const [expenses, setExpenses] = useState([]);
+  // useEffect(() => {
+  //   axiosSecure
+  //     .get("/expenses")
+  //     .then((res) => {
+  //       // console.log("API RESPONSE:", res.data);
+  //       setExpenses(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
   return (
     <View className="flex-1 px-6">
       <FlatList

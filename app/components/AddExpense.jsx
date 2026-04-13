@@ -13,8 +13,11 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import axiosSecure from "../axiosSecure";
+import { useAuth } from "../hooks/useAuth";
 
 const AddExpense = () => {
+  const {user} = useAuth()
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("Food");
@@ -26,13 +29,14 @@ const AddExpense = () => {
       title,
       amount: parseFloat(amount),
       type,
+      email: user?.email || "unknown",
       category,
       date: new Date().toISOString().split("T")[0],
       note,
     };
 
-    axios
-      .post("https://expense-tracker-app-server-l1bm.onrender.com/expenses", newExpense)
+    axiosSecure
+      .post("/expenses", newExpense)
       .then((response) => {
         Alert.alert("Success", "Expense added successfully!");
         router.push("/");

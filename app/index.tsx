@@ -1,25 +1,29 @@
 import Feather from "@expo/vector-icons/Feather";
-import axios from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Expenses from "./components/Expenses";
 import { useAuth } from "../app/hooks/useAuth";
+import axiosSecure from "./axiosSecure";
+import Expenses from "./components/Expenses";
 
 export default function Index() {
-  const {user, logout} = useAuth()
+  const { user, logout } = useAuth();
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://expense-tracker-app-server-l1bm.onrender.com/expenses")
-      .then((res) => {
-        // console.log("API RESPONSE:", res.data);
-        setExpenses(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (!user) return;
+
+    axiosSecure
+      .get("/expenses")
+      .then((res) => setExpenses(res.data))
+      .catch((err) => {
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          router.push("/login");
+        }
+        console.log(err);
+      });
+  }, [user]);
 
   const totalIncome = expenses
     .filter((exp: any) => exp.category === "income")
@@ -36,7 +40,6 @@ export default function Index() {
       <View className="px-6 pt-8 pb-4">
         <Text className="text-3xl font-bold text-white mb-2">Wallet</Text>
 
-        {/* set the login path */}
         <TouchableOpacity onPress={() => router.push("/login")}>
           <Text className="text-sm text-emerald-400 font-medium mb-4">
             Login
@@ -81,11 +84,14 @@ export default function Index() {
       </View>
 
       <View className="flex-1 mb-10">
-        <Expenses />
+        <Expenses expenses={expenses} />
       </View>
 
       <TouchableOpacity
-        onPress={() => router.push("/components/AddExpense")}
+        // onPress={() => router.push("/components/AddExpense")}
+        onPress={() => {
+          user ? router.push("/components/AddExpense") : router.push("/login");
+        }}
         className="absolute bottom-20 right-6 w-16 h-16 rounded-full bg-green-600 items-center justify-center shadow-lg active:opacity-80"
       >
         <Feather name="plus" size={28} color="white" strokeWidth={3} />

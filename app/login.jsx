@@ -21,12 +21,7 @@ const Login = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    const userData = {
-      email,
-      password,
-    };
-
-    login(userData);
+    login({ email, password });
     router.push("/");
   };
 
