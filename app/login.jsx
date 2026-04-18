@@ -2,11 +2,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    StatusBar,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,8 +20,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
-    login({ email, password });
+  const handleLogin = async () => {
+    await login({ email, password });
     router.push("/");
   };
 

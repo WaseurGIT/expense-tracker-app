@@ -12,8 +12,9 @@ export default function Index() {
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
-    if (!user) return;
+    // if (!user) return;
 
+    console.log("User", user);
     axiosSecure
       .get("/expenses")
       .then((res) => setExpenses(res.data))
@@ -23,7 +24,7 @@ export default function Index() {
         }
         console.log(err);
       });
-  }, [user]);
+  }, []);
 
   const totalIncome = expenses
     .filter((exp: any) => exp.category === "income")
@@ -38,20 +39,45 @@ export default function Index() {
   return (
     <SafeAreaView className="flex-1 bg-gradient-to-b from-[#0F172A] to-[#1E293B] relative">
       <View className="px-6 pt-8 pb-4">
-        <Text className="text-3xl font-bold text-white mb-2">Wallet</Text>
+        <View className="flex-row items-center justify-between">
+          <Text className="text-3xl font-bold text-white mb-2">Wallet</Text>
+          <View className="flex-col items-end">
+            {user && (
+              <Text className="text-sm text-gray-400 ">
+                <Text className="text-orange-500">
+                  {user ? user.name : "Guest"}
+                </Text>
+              </Text>
+            )}
+            {user && (
+              <Text className="text-sm text-gray-400">{user.email}</Text>
+            )}
+          </View>
+        </View>
 
-        <TouchableOpacity onPress={() => router.push("/login")}>
-          <Text className="text-sm text-emerald-400 font-medium mb-4">
-            Login
-          </Text>
-        </TouchableOpacity>
+        <View className="flex-col items-end">
+          {user ? (
+            <TouchableOpacity onPress={logout}>
+              <Text className="text-sm text-emerald-400 font-medium mb-4">
+                Logout
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => router.push("/login")}>
+              {/* <Text className="text-sm text-emerald-400 font-medium mb-4">
+                Login
+              </Text> */}
+            </TouchableOpacity>
+          )}
+        </View>
 
         <View className="bg-gradient-to-br from-[#4E9D9C] to-[#2D7472] rounded-3xl p-6 mb-2 shadow-lg">
           <Text className="text-white text-sm font-medium opacity-80 mb-2">
             Total Balance
           </Text>
           <Text className="text-4xl font-bold text-white mb-6">
-            ৳ {balance.toLocaleString()}
+            {/* {user && }} */}
+            {user ? `৳ ${balance.toLocaleString()}` : "0"}
           </Text>
 
           <View className="flex-row justify-between">
@@ -61,7 +87,8 @@ export default function Index() {
                 <Text className="text-white text-xs opacity-80">Income</Text>
               </View>
               <Text className="text-white text-lg font-semibold">
-                +৳ {totalIncome.toLocaleString()}
+                {/* {user && +৳ {totalIncome.toLocaleString()}} */}
+                {user ? `৳ ${totalIncome.toLocaleString()}` : "0"}
               </Text>
             </View>
             <View>
@@ -70,22 +97,24 @@ export default function Index() {
                 <Text className="text-white text-xs opacity-80">Expenses</Text>
               </View>
               <Text className="text-white text-lg font-semibold">
-                -৳ {totalExpense.toLocaleString()}
+                {user ? `৳ ${totalExpense.toLocaleString()}` : "0"}
               </Text>
             </View>
           </View>
         </View>
 
-        <View className="">
+        <View className="mt-4">
           <Text className="text-white text-lg font-bold">
             Recent Transactions
           </Text>
         </View>
       </View>
 
-      <View className="flex-1 mb-10">
-        <Expenses expenses={expenses} />
-      </View>
+      {user && (
+        <View className="flex-1 mb-10">
+          <Expenses expenses={expenses} />
+        </View>
+      )}
 
       <TouchableOpacity
         // onPress={() => router.push("/components/AddExpense")}
