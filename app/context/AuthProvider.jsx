@@ -11,10 +11,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadUser = async () => {
       const token = await AsyncStorage.getItem("token");
-      const user = await AsyncStorage.getItem("user");
+      const storedUser = await AsyncStorage.getItem("user");
 
-      if (token) {
-        setUser({ ...user, token });
+      if (token && storedUser) {
+        setUser({ ...JSON.parse(storedUser), token });
       }
       setLoading(false);
     };
@@ -25,19 +25,20 @@ const AuthProvider = ({ children }) => {
     try {
       // console.log("Attempting login with:", userData);
       const res = await axiosSecure.post("/login", userData);
-      console.log("Login response:", res.data.user);
+      // console.log("Login successful:", res);
+      // console.log("Login response:", res.data.user);
 
       const token = res.data.token;
-      await AsyncStorage.setItem("token", token);
       const loggedin_user = {
         name: res.data.user.name,
         email: res.data.user.email,
       };
-      console.log("Logged in user:", loggedin_user);
+      await AsyncStorage.setItem("token", token);
+      // console.log("Logged in user:", loggedin_user);
       await AsyncStorage.setItem("user", JSON.stringify(loggedin_user));
       setUser({ ...loggedin_user, token });
     } catch (error) {
-      console.error("Login failed:", error.message);
+      console.error("Login failed:", error.response?.data || error.message);
     }
   };
 
