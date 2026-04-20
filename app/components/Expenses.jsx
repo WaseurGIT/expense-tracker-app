@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import { FlatList, RefreshControl, Text, View } from "react-native";
 // import expenses from "../data/expenses.json";
-import axiosSecure from "../axiosSecure";
+// import axiosSecure from "../axiosSecure";
 
 const getCategoryIcon = (type) => {
   const icons = {
@@ -37,6 +37,14 @@ const getCategoryColor = (type) => {
 };
 
 const Expenses = ({ expenses }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   // const [expenses, setExpenses] = useState([]);
   // useEffect(() => {
   //   axiosSecure
@@ -54,6 +62,9 @@ const Expenses = ({ expenses }) => {
         keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         renderItem={({ item }) => (
           <View className="bg-white rounded-2xl p-4 mb-3 flex-row items-center justify-between shadow-sm border-l-4 border-[#4E9D9C]">
             <View className="flex-row items-center flex-1">
