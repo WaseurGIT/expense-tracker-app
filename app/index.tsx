@@ -1,3 +1,4 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ export default function Index() {
   useEffect(() => {
     // if (!user) return;
 
-    console.log("User", user);
+    // console.log("User", user);
     axiosSecure
       .get("/expenses")
       .then((res) => setExpenses(res.data))
@@ -103,28 +104,50 @@ export default function Index() {
           </View>
         </View>
 
+        {/* <View className="flex-row justify-end">
+          <TouchableOpacity
+            onPress={() => {
+              user ? router.push("/Charts") : router.push("/login");
+            }}
+            className="flex-row items-center mt-4 p-2 bg-green-400 rounded-lg shadow-md active:opacity-80"
+          >
+            <Text className="text-white text-lg font-semibold">Analytics</Text>
+          </TouchableOpacity>
+        </View> */}
+
         <View className="mt-4">
           <Text className="text-white text-lg font-bold">
             Recent Transactions
           </Text>
         </View>
       </View>
-
       {user && (
         <View className="flex-1 mb-10">
           <Expenses expenses={expenses} />
         </View>
       )}
 
-      <TouchableOpacity
-        // onPress={() => router.push("/components/AddExpense")}
-        onPress={() => {
-          user ? router.push("/components/AddExpense") : router.push("/login");
-        }}
-        className="absolute bottom-20 right-6 w-16 h-16 rounded-full bg-green-600 items-center justify-center shadow-lg active:opacity-80"
-      >
-        <Feather name="plus" size={28} color="white" strokeWidth={3} />
-      </TouchableOpacity>
+      <View className="absolute bottom-20 right-6 flex-col gap-4">
+        <TouchableOpacity
+          onPress={() => {
+            user ? router.push("/Charts") : router.push("/login");
+          }}
+          className="w-14 h-14 rounded-full bg-blue-600 items-center justify-center shadow-lg active:opacity-80"
+        >
+          <AntDesign name="bar-chart" size={20} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            user
+              ? router.push("/components/AddExpense")
+              : router.push("/login");
+          }}
+          className="w-14 h-14 rounded-full bg-green-600 items-center justify-center shadow-lg active:opacity-80"
+        >
+          <Feather name="plus" size={24} color="white" strokeWidth={3} />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }

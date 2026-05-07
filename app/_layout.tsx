@@ -6,8 +6,8 @@ import AuthProvider from "./context/AuthProvider";
 export default function RootLayout() {
   return (
     <AuthProvider>
+      <StatusBar style="auto" hidden={false} />
       <Stack>
-        <StatusBar style="auto" hidden={false} />
         <Stack.Screen
           name="index"
           options={{
@@ -41,6 +41,14 @@ export default function RootLayout() {
             //   fontWeight: "bold",
             // },
             // headerTintColor: "white",
+          }}
+        />
+        <Stack.Screen
+          name="/Charts"
+          options={{
+            headerShown: false,
+            title: "Analytics",
+            // headerStyle: { backgroundColor: "#0F172A" },
           }}
         />
       </Stack>

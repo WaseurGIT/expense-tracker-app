@@ -4,7 +4,6 @@ import { router } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
-  KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
@@ -15,9 +14,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import axiosSecure from "../axiosSecure";
 import { useAuth } from "../hooks/useAuth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const AddExpense = () => {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("Food");
@@ -57,10 +57,13 @@ const AddExpense = () => {
       style={{ flex: 1, backgroundColor: "#0F172A" }}
       className="px-6 py-8"
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={60}
-        className="flex-1 justify-between"
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        extraScrollHeight={30}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+        className="bg-gradient-to-b from-emerald-700 to-emerald-600"
       >
         <ScrollView
           className="flex-1"
@@ -70,7 +73,7 @@ const AddExpense = () => {
           <Text className="text-3xl font-bold text-white mb-8">
             Add Expense
           </Text>
-          
+
           <View className="mb-5">
             <Text className="text-white text-sm font-semibold mb-2">Title</Text>
             <TextInput
@@ -156,7 +159,7 @@ const AddExpense = () => {
             <Text className="text-white font-bold text-base">Add Expense</Text>
           </TouchableOpacity>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
