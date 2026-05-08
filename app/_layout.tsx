@@ -6,8 +6,8 @@ import AuthProvider from "./context/AuthProvider";
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <StatusBar style="auto" hidden={false} />
       <Stack>
+      <StatusBar style="auto" hidden={false} />
         <Stack.Screen
           name="index"
           options={{
@@ -48,7 +48,15 @@ export default function RootLayout() {
           options={{
             headerShown: false,
             title: "Analytics",
-            // headerStyle: { backgroundColor: "#0F172A" },
+            headerStyle: { backgroundColor: "#0F172A" },
+          }}
+        />
+        <Stack.Screen
+          name="/Exchanger"
+          options={{
+            headerShown: false,
+            title: "Money Exchanger",
+            headerStyle: { backgroundColor: "#0F172A" },
           }}
         />
       </Stack>

@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../app/hooks/useAuth";
 import axiosSecure from "./axiosSecure";
 import Expenses from "./components/Expenses";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function Index() {
   const { user, logout } = useAuth();
@@ -127,7 +128,16 @@ export default function Index() {
         </View>
       )}
 
-      <View className="absolute bottom-20 right-6 flex-col gap-4">
+      <View className="absolute bottom-20 right-6 flex-row gap-4">
+        <TouchableOpacity
+          onPress={() => {
+            user ? router.push("/Exchanger") : router.push("/login");
+          }}
+          className="w-14 h-14 rounded-full bg-blue-600 items-center justify-center shadow-lg active:opacity-80"
+        >
+          <MaterialIcons name="currency-exchange" size={20} color="white" />
+        </TouchableOpacity>
+        
         <TouchableOpacity
           onPress={() => {
             user ? router.push("/Charts") : router.push("/login");
